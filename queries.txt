@@ -1,0 +1,134 @@
+
+--1
+alter table products add tax_rate decimal(5,2);
+update products set tax_rate=12;
+
+-- 2
+select title from titles where title LIKE '%s' OR title LIKE '%t';
+
+--3
+select title from titles where type in ('business', 'psychology') or type IS NULL;
+
+--4
+select title from titles where ytd_sales>5000 and royalty<20;
+
+--5
+select title from titles where pub_id='0736' order by ytd_sales;
+
+--6
+select MAX(royalty) - MIN(royalty) as difference_in_royalty from titles where pub_id='0877';
+
+--7
+select au_id, count(title_id) as Number_of_books from titleauthor group by au_id;
+
+--8
+--select title_id, count(au_id) as number_of_authors from titleauthor group by title_id;
+
+--9
+select au_id, avg(royaltyper) as average_royalty from titleauthor where au_ord=1 group by au_id;
+
+--10
+select title from titles where ytd_sales BETWEEN 10000 and 20000 order by price;
+
+--11
+select count(*) from authors where city='Melno Park'; 
+
+--12
+select state, count(*) as no_of_authors from authors group by state order by state;
+
+--13
+select state from authors where au_fname LIKE 's%' group by state having count(*)>2 ;
+
+--14
+select replace(replace(title, ' ','.'),'-','*') from titles;
+
+--15
+select replace(title,' ','') from titles;
+
+--16
+select left(title, CHARINDEX(' ', title+' ')-1) from titles ;
+
+--17
+select MONTH(pubdate) as month , count(*) as no_of_books_published from titles group by MONTH(pubdate);
+
+--18
+select t.title, p.pub_name from titles t join publishers p on t.pub_id=p.pub_id where p.country='USA';
+
+--19
+select p.pub_name, avg(t.price) as average_price_of_books  from publishers p join titles t on p.pub_id = t.pub_id group by p.pub_name;
+
+--20
+select a.city, count(*) no_of_books_written from authors a join titleauthor t on a.au_id= t.au_id group by a.city;
+
+--21
+select a.au_fname , t.title from authors a LEFT JOIN titleauthor ta on a.au_id = ta.au_id 
+LEFT JOIN titles t ON ta.title_id=t.title_id;
+
+--22
+ select t.title, p.pub_name, a.au_fname
+from titles t
+JOIN publishers p on t.pub_id=p.pub_id
+JOIN titleauthor ta on t.title_id=ta.title_id AND ta.au_ord=1
+JOIN authors a on ta.au_id=a.au_id;
+
+--23
+select p.city , max(t.price) from publishers p join titles t on p.pub_id= t.pub_id group by p.city;
+
+--24
+select DISTINCT t.title from titles t join titleauthor ta on t.title_id= ta.title_id join authors a on ta.au_id= a.au_id where a.city='Melno Park';
+
+--25
+select p.pub_name from publishers p join titles t on p.pub_id= t.pub_id where YEAR(t.pubdate)='1991';
+
+--26
+select t.title from titles t join publishers p on t.pub_id= p.pub_id where p.city<>'USA';
+
+--27
+select t.title from titles t join publishers p on t.pub_id= p.pub_id where p.city<>'USA' OR t.price<5; 
+
+--28
+create view vw_titles AS
+select t.title, p.pub_name, YEAR(t.pubdate) as year,
+ISNULL(t.price, 0) AS price,  ISNULL(t.type, 'Unknown') as type
+from titles t join publishers p on t.pub_id= p.pub_id;
+
+--select * from vw_titles;
+
+--29
+select p.pub_name from publishers p join titles t on p.pub_id= t.pub_id
+join titleauthor ta on t.title_id= ta.title_id
+join authors a on ta.au_id= a.au_id where ta.au_id IN (
+    select au_id from titleauthor
+     group by au_id
+    having COUNT(*) > 2
+ );
+
+--30
+DELETE ta from titleauthor ta join authors a on ta.au_id= a.au_id where a.au_fname='Dean';
+-- select * from titleauthor;
+
+--31
+-- select * from titles;
+
+update titles set price= (select price from titles where title='MC222') where title='BU111';
+
+-- select * from titles;
+
+--32
+--select title from titles where pubdate >= DATEADD(YEAR, -25, GETDATE());
+
+--33
+select title from titles 
+where pub_id in ( 
+   select pub_id from titles where YEAR(pubdate)= 2021
+);
+
+--34
+
+create view vw_pub_books AS
+select p.pub_name, p.city, count(*) as no_of_books_published FROM
+publishers p left join titles t on p.pub_id= t.pub_id group by p.pub_name, p.city;
+
+--select * from vw_pub_books;
+
+
