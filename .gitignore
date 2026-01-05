@@ -1,0 +1,9 @@
+# Ignore JDBC driver
+lib/*.jar
+
+# Ignore compiled files
+*.class
+
+# Ignore IDE files
+.vscode/
+.idea/
