@@ -10,19 +10,6 @@ import java.util.Scanner;
 
 public class Two_product_transaction {
 
-    // DB connection
-    public static Connection getConnection() throws Exception {
-
-        String url = "jdbc:sqlserver://localhost:1433;"
-                   + "databaseName=productSales;"
-                   + "encrypt=true;"
-                   + "trustServerCertificate=true";
-
-        String user = "sa";
-        String password = "ServerSql#876";
-        return DriverManager.getConnection(url, user, password);
-    }
-
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
