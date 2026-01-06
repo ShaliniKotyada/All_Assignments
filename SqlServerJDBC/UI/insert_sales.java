@@ -29,7 +29,8 @@ public class insert_sales {
         String sql = 
         "INSERT INTO sales (ProdId, Transdate, Qty, Amount) VALUES (?,?,?,?)";
 
-        try (Connection con = getConnection();
+        try (Connection con= DriverManager.getConnection(DatabaseUtil.CONNECTION_STRING);
+             
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             System.out.println("Enter Sale Transaction Details");

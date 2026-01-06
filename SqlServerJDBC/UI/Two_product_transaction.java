@@ -30,9 +30,9 @@ public class Two_product_transaction {
 
         String sql =
         "INSERT INTO sales (Prodid, Transdate, Qty, Amount) VALUES (?,?,?,?)";
-
+             
         try {
-            con = getConnection();
+            con = DriverManager.getConnection(DatabaseUtil.CONNECTION_STRING);
 
             // Disable auto-commit
             con.setAutoCommit(false);

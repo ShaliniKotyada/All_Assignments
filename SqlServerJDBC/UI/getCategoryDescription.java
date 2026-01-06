@@ -7,17 +7,6 @@ import java.sql.ResultSet;
 import java.util.Scanner;
 
 public class getCategoryDescription {
-    
-    public static Connection getConnection() throws Exception{
-         String url = "jdbc:sqlserver://localhost:1433;"
-                   + "databaseName=productSales;"
-                   + "encrypt=true;"
-                   + "trustServerCertificate=true";
-
-        String user = "sa";
-        String password = "ServerSql#876";
-        return DriverManager.getConnection(url, user, password);
-    }
 
     // actual code
     public static void main(String[] args) {
@@ -25,7 +14,7 @@ public class getCategoryDescription {
         Scanner sc=new Scanner(System.in);
          // trying for db connection
 
-        try (Connection con= getConnection()){
+        try (Connection con= DriverManager.getConnection(DatabaseUtil.CONNECTION_STRING)){
              
              
              System.out.println("Enter Product_id: ");

@@ -6,24 +6,11 @@ import java.util.Scanner;
 
 public class update_product_name {
 
-    // Reusable connection method
-    public static Connection getConnection() throws Exception {
-
-        String url = "jdbc:sqlserver://localhost:1433;"
-                   + "databaseName=productSales;"
-                   + "encrypt=true;"
-                   + "trustServerCertificate=true";
-
-        String user = "sa";
-        String password = "ServerSql#876";
-        return DriverManager.getConnection(url, user, password);
-    }
-
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
-        try (Connection con = getConnection()) {
+        try (Connection con = DriverManager.getConnection(DatabaseUtil.CONNECTION_STRING)) {
 
             System.out.print("Enter Product ID: ");
             int prodid = sc.nextInt();
